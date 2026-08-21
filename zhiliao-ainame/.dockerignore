@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 日志文件
+*.log
+logs/
+
+# 数据库
+*.db
+*.sqlite
+*.sqlite3
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# 文档
+*.md
+!README.md
+
+# 测试文件
+test_*.py
+*_test.py
+tests/
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+.DS_Store
+
+# 迁移文件（可选，如果需要在容器内运行迁移则保留）
+# alembic/
+
+# 其他
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/

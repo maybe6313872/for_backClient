@@ -1,0 +1,11 @@
+target/
+.idea/
+.vscode/
+*.iml
+*.log
+*.class
+*.jar
+*.war
+*.ear
+application-*.local.yml
+application-*.local.yaml

@@ -1,0 +1,56 @@
+server:
+  port: 5028
+
+spring:
+  application:
+    name: ainame-j
+  profiles:
+    active: dev
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/zhiliao_ainame?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+springdoc:
+  swagger-ui:
+    path: /docs
+  api-docs:
+    path: /v3/api-docs
+
+app:
+  jwt:
+    secret-key: dev-only-change-me-please-use-32chars!!
+    access-token-days: 15
+    refresh-token-days: 30
+  mail:
+    from:
+    from-name: 知了课堂
+
+logging:
+  level:
+    com.zhiliao.ainame: INFO
+    org.hibernate.SQL: WARN

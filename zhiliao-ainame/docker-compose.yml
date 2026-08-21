@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # FastAPI 应用服务
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zhiliao-ainame-app
+    ports:
+      - "8000:8000"
+    environment:
+      # 数据库配置（从环境变量读取，如果没有则使用默认值）
+      - DB_URI=${DB_URI:-ainame://root:root@mysql:3306/zhiliao_ainame?charset=utf8mb4}
+      - DB_URI_TEST=${DB_URI_TEST:-${DB_URI:-ainame://root:root@mysql:3306/zhiliao_ainame?charset=utf8mb4}}
+      # 邮件配置
+      - MAIL_USERNAME=${MAIL_USERNAME:-360999519@qq.com}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_FROM=${MAIL_FROM:-360999519@qq.com}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_SERVER=${MAIL_SERVER:-smtp.qq.com}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-知了课堂}
+      - MAIL_STARTTLS=${MAIL_STARTTLS:-true}
+      - MAIL_SSL_TLS=${MAIL_SSL_TLS:-false}
+      # JWT 配置
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-sfsadadafsjw}
+      # 是否自动运行数据库迁移
+      - RUN_MIGRATIONS=${RUN_MIGRATIONS:-false}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+    volumes:
+      # 如果需要持久化日志，可以挂载日志目录
+      # - ./logs:/app/logs
+      - ./alembic:/app/alembic  # 如果需要运行时迁移，保留此挂载
+
+  # MySQL 数据库服务（可选，如果已有外部数据库可删除此服务）
+  mysql:
+    image: mysql:8.0
+    container_name: zhiliao-ainame-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-zhiliao_ainame}
+      - MYSQL_USER=${MYSQL_USER:-}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./fix_thumbnail_longblob.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

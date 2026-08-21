@@ -1,0 +1,145 @@
+// Prisma schema - 与 FastAPI 项目表结构对齐
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique @db.VarChar(100)
+  username String @db.VarChar(100)
+  password String @db.VarChar(200)
+
+  @@map("user")
+}
+
+model EmailCode {
+  id          Int      @id @default(autoincrement())
+  email       String   @db.VarChar(100)
+  code        String   @db.VarChar(10)
+  createdTime DateTime @default(now()) @map("created_time")
+  type        String?  @default("test") @db.VarChar(10)
+
+  @@map("email_code")
+}
+
+model Art {
+  id          Int      @id @default(autoincrement())
+  username    String   @db.VarChar(100)
+  sex         String   @db.VarChar(10)
+  artcontent  String   @db.VarChar(5000)
+  thumbnail   Bytes    @db.LongBlob
+  createdTime DateTime @default(now()) @map("created_time")
+
+  @@map("art")
+}
+
+model School {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(100)
+  address   String?   @db.VarChar(200)
+  createdAt DateTime? @map("created_time")
+  teachers  Teacher[]
+
+  @@map("school")
+}
+
+model Teacher {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(100)
+  sex       String?   @db.VarChar(10)
+  age       Int?
+  schoolId  Int       @map("school_id")
+  createdAt DateTime? @map("created_time")
+  school    School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  students  Student[]
+
+  @@map("teacher")
+}
+
+model Student {
+  id         Int            @id @default(autoincrement())
+  name       String         @db.VarChar(100)
+  sex        String?        @db.VarChar(10)
+  age        Int?
+  teacherId  Int            @map("teacher_id")
+  createdAt  DateTime?      @map("created_time")
+  teacher    Teacher        @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  courses    StudentCourse[]
+
+  @@map("student")
+}
+
+model Course {
+  id        Int            @id @default(autoincrement())
+  name      String         @db.VarChar(100)
+  credit    Int?
+  createdAt DateTime?      @map("created_time")
+  students  StudentCourse[]
+
+  @@map("course")
+}
+
+model StudentCourse {
+  id        Int      @id @default(autoincrement())
+  studentId Int      @map("student_id")
+  courseId  Int      @map("course_id")
+  score     Int?
+  createdAt DateTime? @map("created_time")
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, courseId])
+  @@map("student_course")
+}
+
+model Company {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  address   String?  @db.VarChar(200)
+  createdAt DateTime? @map("created_time")
+  orders    Order[]
+
+  @@map("company")
+}
+
+model Product {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(100)
+  price       Float?
+  storenum    Int?
+  description String?       @db.VarChar(500)
+  productno   String?       @db.VarChar(50)
+  createdAt   DateTime?     @map("created_time")
+  orderItems  OrderProduct[]
+
+  @@map("product")
+}
+
+model Order {
+  id          Int           @id @default(autoincrement())
+  orderNumber String        @map("order_number") @db.VarChar(100)
+  companyId   Int           @map("company_id")
+  createdAt   DateTime?     @map("created_time")
+  company     Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  products    OrderProduct[]
+
+  @@map("order")
+}
+
+model OrderProduct {
+  id        Int     @id @default(autoincrement())
+  orderId   Int     @map("order_id")
+  productId Int     @map("product_id")
+  number    Int     @default(1)
+  createdAt DateTime? @map("created_time")
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, productId])
+  @@map("order_product")
+}

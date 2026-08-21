@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    password: root
+
+logging:
+  level:
+    com.zhiliao.ainame: DEBUG
+    org.springframework.web: INFO
