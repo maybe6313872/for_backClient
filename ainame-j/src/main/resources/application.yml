@@ -1,5 +1,5 @@
 server:
-  port: 5028
+  port: 8000
 
 spring:
   application:
@@ -26,8 +26,8 @@ spring:
   mail:
     host: smtp.qq.com
     port: 587
-    username:
-    password:
+    username: 360999519@qq.com
+    password: honvtfvjsfaybijf
     properties:
       mail:
         smtp:

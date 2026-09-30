@@ -111,13 +111,13 @@ import ChartCard from '../components/ChartCard.vue'
 const account = ref('')
 const password = ref('')
 const code = ref('')
-const yourToken = '123123123' || localStorage.getItem('token') || ''
+const yourToken = localStorage.getItem('token') || ''
 const selectedFile = ref(null)
 const fileInput = ref(null)
 
 const getCode = async () => {
   // 模拟获取验证码
-  const getResponse = await axios.get('/api/auth/code?email=liuxun@envicool.com')
+  const getResponse = await axios.get('/api/auth/code?email=360999519@qq.com')
   console.log('GET Response:', getResponse.data)
   alert(`GET 请求返回: ${getResponse.data.message}`)
 }
@@ -144,9 +144,10 @@ const handleSubmit = async () => {
     // const postResponse = await axios.post(url, postData)
     const postResponse = await axios.post(url, {
       email: '360999519@qq.com',
-      password: '111111'
+      password: '123456'
     })
     console.log('POST Response:', postResponse.data)
+    localStorage.setItem('token', postResponse.data.token)
   } catch (error) {
     console.error('Error:', error)
   }

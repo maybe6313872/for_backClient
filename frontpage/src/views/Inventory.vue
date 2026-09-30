@@ -83,7 +83,7 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 const router = useRouter()
-const yourToken = '123123123' || localStorage.getItem('token') || ''
+const yourToken = localStorage.getItem('token') || ''
 
 // 学校列表数据
 const schoolList = ref([])

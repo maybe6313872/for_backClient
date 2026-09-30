@@ -138,7 +138,7 @@ import axios from 'axios'
 
 const router = useRouter()
 
-const yourToken = '123123123' || localStorage.getItem('token') || ''
+const yourToken = localStorage.getItem('token') || ''
 
 // 订单列表数据
 const orderList = ref([])

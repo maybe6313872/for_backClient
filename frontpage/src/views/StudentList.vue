@@ -258,7 +258,7 @@ import axios from 'axios'
 const router = useRouter()
 const route = useRoute()
 
-const yourToken = '123123123' || localStorage.getItem('token') || ''
+const yourToken = localStorage.getItem('token') || ''
 
 // 学生列表数据
 const studentList = ref([])

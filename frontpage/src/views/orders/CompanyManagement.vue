@@ -80,7 +80,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-const yourToken = '123123123' || localStorage.getItem('token') || ''
+const yourToken = localStorage.getItem('token') || ''
 
 // 公司列表数据
 const companyList = ref([])
