@@ -8,13 +8,12 @@ import com.zhiliao.ainame.dto.ArtDtos.ArtQueryOutDto;
 import com.zhiliao.ainame.dto.CommonDtos.ResponseOut;
 import com.zhiliao.ainame.entity.Art;
 import com.zhiliao.ainame.repository.ArtRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,8 +91,7 @@ public class AdminArtController {
 
     List<ArtOutDto> queryArts(ArtQueryIn data) {
         int pageIndex = Math.max(data.pageOrDefault() - 1, 0);
-        var pageable = PageRequest.of(pageIndex, data.sizeOrDefault());
-        return arts.findBySexOrderByCreatedTimeDesc(data.sex(), pageable).stream()
+        return arts.findBySexOrderByCreatedTimeDesc(data.sex(), pageIndex * data.sizeOrDefault(), data.sizeOrDefault()).stream()
             .map(this::toOut)
             .toList();
     }
