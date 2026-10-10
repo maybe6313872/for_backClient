@@ -58,3 +58,16 @@ npm run build
 ## 浏览器支持
 
 现代浏览器（Chrome、Firefox、Safari、Edge等）
+
+## 在手机或 Android 模拟器中访问开发服务器
+
+Vite 开发服务器监听所有网卡（`0.0.0.0:3000`），因此除本机 `http://localhost:3000` 外，也可从同一局域网中的设备访问开发电脑的局域网 IP，例如 `http://192.168.1.20:3000`。启动方式仍为：
+
+```bash
+npm run dev
+```
+
+- Android Studio 模拟器访问开发电脑请使用 `http://10.0.2.2:3000`；模拟器里的 `localhost` 指模拟器本身，不是电脑。
+- 真机与开发电脑连接同一 Wi-Fi 后，使用开发电脑的局域网 IPv4 地址，例如 `http://192.168.1.20:3000`。
+- Windows 防火墙需允许 Node.js/Vite 接收 TCP 3000 端口的入站连接。
+- 前端的 `/api` 请求仍由 Vite 代理到开发电脑上的 `http://localhost:8000`，无需在浏览器端改成后端 IP。
