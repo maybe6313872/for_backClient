@@ -10,7 +10,7 @@ import com.zhiliao.ainame.repository.SchoolRepository;
 import com.zhiliao.ainame.repository.StudentCourseRepository;
 import com.zhiliao.ainame.repository.StudentRepository;
 import com.zhiliao.ainame.repository.TeacherRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -85,6 +85,8 @@ public class SchoolController {
             if (!studentIds.isEmpty()) {
                 studentCourses.deleteByStudentIdIn(studentIds);
             }
+            students.deleteByTeacherIdIn(teacherIds);
+            teachers.deleteBySchoolId(schoolId);
         }
         schools.delete(school);
         return ResponseEntity.ok(new ResponseOut());

@@ -8,7 +8,7 @@ import com.zhiliao.ainame.dto.SchoolDtos.CourseUpdateInDto;
 import com.zhiliao.ainame.entity.Course;
 import com.zhiliao.ainame.repository.CourseRepository;
 import com.zhiliao.ainame.repository.StudentCourseRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.http.HttpStatus;

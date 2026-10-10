@@ -8,7 +8,7 @@ import com.zhiliao.ainame.entity.Company;
 import com.zhiliao.ainame.repository.CompanyRepository;
 import com.zhiliao.ainame.repository.OrderHeaderRepository;
 import com.zhiliao.ainame.repository.OrderLineRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.http.HttpStatus;

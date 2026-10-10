@@ -10,7 +10,7 @@ import com.zhiliao.ainame.entity.Student;
 import com.zhiliao.ainame.repository.CourseRepository;
 import com.zhiliao.ainame.repository.StudentCourseRepository;
 import com.zhiliao.ainame.repository.StudentRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Map;

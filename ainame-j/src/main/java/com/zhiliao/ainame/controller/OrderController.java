@@ -11,7 +11,7 @@ import com.zhiliao.ainame.repository.CompanyRepository;
 import com.zhiliao.ainame.repository.OrderHeaderRepository;
 import com.zhiliao.ainame.repository.OrderLineRepository;
 import com.zhiliao.ainame.repository.ProductRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Map;

@@ -11,7 +11,7 @@ import com.zhiliao.ainame.dto.SchoolDtos.StudentsByCourseResponseDto;
 import com.zhiliao.ainame.entity.StudentCourse;
 import com.zhiliao.ainame.repository.StudentCourseRepository;
 import com.zhiliao.ainame.repository.StudentRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.http.HttpStatus;

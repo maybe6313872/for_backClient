@@ -1,6 +1,10 @@
 server:
   port: 8000
 
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+
 spring:
   application:
     name: ainame-j
@@ -12,13 +16,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/zhiliao_ainame?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password:
-  jpa:
-    hibernate:
-      ddl-auto: none
-    open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
   data:
     redis:
       host: 127.0.0.1
@@ -53,4 +50,3 @@ app:
 logging:
   level:
     com.zhiliao.ainame: INFO
-    org.hibernate.SQL: WARN

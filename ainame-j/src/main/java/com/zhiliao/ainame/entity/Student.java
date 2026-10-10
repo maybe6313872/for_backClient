@@ -1,16 +1,11 @@
 package com.zhiliao.ainame.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,36 +13,23 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "student")
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@TableName("student")
+public class Student implements PersistedEntity {
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
-    @Column(name = "name", length = 50, nullable = false)
     private String name = "";
 
-    @Column(name = "sex", length = 10, nullable = false)
     private String sex = "";
 
-    @Column(name = "age", nullable = false)
     private Integer age;
 
-    @Column(name = "teacher_id", nullable = false)
     private Integer teacherId;
 
-    @Column(name = "created_time", nullable = false)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
+    @TableField(exist = false)
     private Teacher teacher;
 
-    @PrePersist
-    void prePersist() {
-        if (createdTime == null) {
-            createdTime = LocalDateTime.now();
-        }
-    }
 }

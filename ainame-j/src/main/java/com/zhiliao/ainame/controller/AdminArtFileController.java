@@ -4,7 +4,7 @@ import com.zhiliao.ainame.dto.ArtDtos.ArtQueryIn;
 import com.zhiliao.ainame.dto.CommonDtos.ResponseOut;
 import com.zhiliao.ainame.entity.Art;
 import com.zhiliao.ainame.repository.ArtRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +23,6 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +46,7 @@ public class AdminArtFileController {
     @PostMapping("/queryArtExcel")
     public ResponseEntity<byte[]> queryArtExcel(@Valid @RequestBody ArtQueryIn data) throws IOException {
         int pageIndex = Math.max(data.pageOrDefault() - 1, 0);
-        var items = arts.findBySexOrderByCreatedTimeDesc(data.sex(), PageRequest.of(pageIndex, data.sizeOrDefault()));
+        var items = arts.findBySexOrderByCreatedTimeDesc(data.sex(), pageIndex * data.sizeOrDefault(), data.sizeOrDefault());
 
         try (var wb = new XSSFWorkbook(); var out = new ByteArrayOutputStream()) {
             var sheet = wb.createSheet("文章列表");

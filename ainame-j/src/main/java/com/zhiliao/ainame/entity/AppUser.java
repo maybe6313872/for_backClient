@@ -1,11 +1,10 @@
 package com.zhiliao.ainame.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,19 +12,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "`user`")
-public class AppUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@TableName("`user`")
+public class AppUser implements PersistedEntity {
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
-    @Column(name = "email", length = 100, nullable = false, unique = true)
     private String email = "";
 
-    @Column(name = "username", length = 100, nullable = false)
     private String username = "";
 
-    @Column(name = "_password", length = 200, nullable = false)
+    @TableField("_password")
     private String passwordHash = "";
 }

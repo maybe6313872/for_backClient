@@ -6,7 +6,7 @@ import com.zhiliao.ainame.dto.OrderDtos.ProductOutDto;
 import com.zhiliao.ainame.entity.Product;
 import com.zhiliao.ainame.repository.OrderLineRepository;
 import com.zhiliao.ainame.repository.ProductRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.http.HttpStatus;

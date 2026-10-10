@@ -54,14 +54,14 @@ public class AdminArtController {
         art.setArtcontent(artcontent);
         art.setThumbnail(thumbnail);
         art.setCreatedTime(LocalDateTime.now());
-        arts.save(art);
+        arts.insertArt(art);
         return ResponseEntity.ok(new ResponseOut());
     }
 
     @Transactional
     @PostMapping("/delArt")
     public ResponseEntity<?> delArt(@Valid @RequestBody ArtDeleteIn data) {
-        long affected = arts.deleteByIdIn(data.idArr());
+        long affected = deleteArts(data.idArr());
         if (affected == 0) {
             return ResponseEntity.badRequest().body(Map.of("detail", "未找到要删除的文章记录"));
         }
@@ -70,12 +70,11 @@ public class AdminArtController {
 
     @PostMapping("/changeArt")
     public ResponseEntity<?> changeArt(@Valid @RequestBody ArtChangeIn data) {
-        var art = arts.findById(data.id()).orElse(null);
+        var art = arts.findArtById(data.id());
         if (art == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("detail", "文章不存在"));
         }
-        art.setSex(data.sex());
-        arts.save(art);
+        arts.updateSexById(data.id(), data.sex());
         return ResponseEntity.ok(new ArtQueryOutDto(200, "修改成功", art.getId()));
     }
 
@@ -91,9 +90,17 @@ public class AdminArtController {
 
     List<ArtOutDto> queryArts(ArtQueryIn data) {
         int pageIndex = Math.max(data.pageOrDefault() - 1, 0);
-        return arts.findBySexOrderByCreatedTimeDesc(data.sex(), pageIndex * data.sizeOrDefault(), data.sizeOrDefault()).stream()
+        int pageSize = Math.max(data.sizeOrDefault(), 1);
+        return arts.findBySexOrderByCreatedTimeDesc(data.sex(), pageIndex * pageSize, pageSize).stream()
             .map(this::toOut)
             .toList();
+    }
+
+    private int deleteArts(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return 0;
+        }
+        return arts.deleteByIdIn(ids);
     }
 
     private ArtOutDto toOut(Art art) {
